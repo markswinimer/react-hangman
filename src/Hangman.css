@@ -9,6 +9,7 @@
   border: 10px solid white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.27),
     0 0 40px rgba(0, 0, 0, 0.06) inset;
+    max-width: 125px;
 }
 
 .Hangman h1 {
@@ -55,4 +56,9 @@
   background: #bdbdbd;
   color: #eeeeee;
   box-shadow: 0 6px #9e9e9e;
+}
+.HangmanRestart {
+  text-align: center;
+  display: inline-block;
+  width: 250px !important;
 }
