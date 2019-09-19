@@ -22,11 +22,11 @@ class Hangman extends Component {
     super(props);
     this.state = { nWrong: 0, guessed: new Set(), answer: randomWord() };
     this.handleGuess = this.handleGuess.bind(this);
-    this.handleReset = this.handleReset.bind(this);
+    this.handleRestart = this.handleRestart.bind(this);
   }
 
 
-handleReset() {
+handleRestart() {
   this.setState( { nWrong: 0, guessed: new Set(), answer: randomWord() } )
 }
   /** guessedWord: show current-state of word:
@@ -63,19 +63,23 @@ handleReset() {
 
   /** render: render game */
   render() {
-    let buttonDisplay = <p className='Hangman-btns'>{this.generateButtons()}</p>;
-    if(this.state.nWrong === this.props.maxWrong) {
-      buttonDisplay = <p className='Hangman-btns'>You lose, correct answer: {this.state.answer}</p>
-    }
+    let gameOver = this.state.nWrong >= this.props.maxWrong;
+    let isWinner = this.guessedWord().join("") === this.state.answer
+    let gameState = this.generateButtons();
+    if (isWinner) gameState = "You Win!"
+    if (gameOver) gameState = "You Lose, answer revealed"
 
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
         <img alt={`${this.state.nWrong} Wrong Guesses`}src={this.props.images[this.state.nWrong]} />
         <p>Number wrong: {this.state.nWrong}</p>
-        <p className='Hangman-word'>{this.guessedWord()}</p>
-        {buttonDisplay}
-        <p><button className="HangmanRestart" onClick={this.handleReset}>Restart Game</button></p>
+        <p className='Hangman-word'>{!gameOver
+          ? this.guessedWord()
+          : this.state.answer}
+        </p>
+        <p className='Hangman-btns'>{gameState}</p>
+        <p><button className="HangmanRestart" onClick={this.handleRestart}>Restart Game</button></p>
       </div>
     );
   }
